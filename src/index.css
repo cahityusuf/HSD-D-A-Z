@@ -1,0 +1,287 @@
+/* ========================================
+   DOĞU ANADOLU ZİRVESİ — Design System
+   Kırmızı / Beyaz / Siyah
+   ======================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://api.fontshare.com/v2/css?f[]=clash-display@200,300,400,500,600,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@200;300;400;500&family=Outfit:wght@200;300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bowlby+One&display=swap');
+
+:root {
+  /* ---- Colors ---- */
+  --color-black: #0a0a0a;
+  --color-black-light: #1a1a1a;
+  --color-black-surface: #111111;
+  --color-dark-gray: #1e1e1e;
+  --color-gray: #2a2a2a;
+  --color-gray-medium: #3a3a3a;
+  --color-gray-text: #888888;
+
+  --color-white: #ffffff;
+  --color-white-soft: #f5f5f5;
+  --color-white-muted: #cccccc;
+
+  --color-red: #dc2626;
+  --color-red-light: #ef4444;
+  --color-red-dark: #b91c1c;
+  --color-maroon: #7f1d1d;
+  --color-red-glow: rgba(220, 38, 38, 0.3);
+  --color-red-subtle: rgba(220, 38, 38, 0.1);
+
+  /* ---- Gradients ---- */
+  --gradient-red: linear-gradient(135deg, #dc2626, #ef4444);
+  --gradient-red-dark: linear-gradient(135deg, #b91c1c, #dc2626);
+  --gradient-dark: linear-gradient(180deg, #0a0a0a 0%, #1a1a1a 100%);
+  --gradient-hero: linear-gradient(135deg, #0a0a0a 0%, #1a0000 50%, #0a0a0a 100%);
+
+  /* ---- Typography ---- */
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-heading: 'Clash Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-hero-display: 'Cormorant Garamond', 'Times New Roman', serif;
+  --font-hero-serif: 'Instrument Serif', Georgia, serif;
+  --font-hero-sans: 'Outfit', var(--font-family);
+  --font-countdown: 'JetBrains Mono', ui-monospace, monospace;
+  --font-countdown-3d: 'Bowlby One', 'Bebas Neue', system-ui, sans-serif;
+
+  /* ---- Spacing ---- */
+  --section-padding: 100px 0;
+  --container-width: 1200px;
+  --container-padding: 0 24px;
+
+  /* ---- Border Radius ---- */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* ---- Shadows ---- */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 30px var(--color-red-glow);
+
+  /* ---- Transitions ---- */
+  --transition-fast: 0.2s ease;
+  --transition-base: 0.3s ease;
+  --transition-slow: 0.5s ease;
+}
+
+/* ========================================
+   LIGHT THEME VARIABLES
+   ======================================== */
+[data-theme="light"] {
+  /* ---- Colors ---- */
+  --color-black: #f8fafc;
+  /* Ultra light background */
+  --color-black-light: #ffffff;
+  /* White surfaces */
+  --color-black-surface: #f1f5f9;
+  /* Slightly darker light surface */
+  --color-dark-gray: #e2e8f0;
+  /* Borders / Subtle lines */
+  --color-gray: #cbd5e1;
+  --color-gray-medium: #e2e8f0;
+  --color-gray-text: #475569;
+  /* Slate 600 for text */
+
+  --color-white: #0f172a;
+  /* Slate 900 for primary text */
+  --color-white-soft: #1e293b;
+  /* Slate 800 */
+  --color-white-muted: #334155;
+  /* Slate 700 */
+
+  /* Keep red accents, but maybe slightly brighter/crisper for light theme if needed. We'll reuse the identical reds for consistency */
+  --color-red: #dc2626;
+  --color-red-light: #ef4444;
+  --color-red-dark: #b91c1c;
+  --color-maroon: #991b1b;
+  --color-red-glow: rgba(220, 38, 38, 0.15);
+  /* Softer glow on white */
+  --color-red-subtle: rgba(220, 38, 38, 0.05);
+
+  /* ---- Gradients ---- */
+  --gradient-dark: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+  --gradient-hero: linear-gradient(135deg, #f8fafc 0%, #ffffff 50%, #f1f5f9 100%);
+
+  /* ---- Shadows ---- */
+  --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.04);
+  --shadow-md: 0 4px 20px rgba(15, 23, 42, 0.06);
+  --shadow-lg: 0 8px 40px rgba(15, 23, 42, 0.08);
+  /* Soft wide shadow for white theme */
+  --shadow-glow: 0 0 30px var(--color-red-glow);
+}
+
+/* ---- Reset & Base ---- */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--color-black);
+  color: var(--color-white);
+  line-height: 1.6;
+  /* hidden stacking context yaratıp backdrop-filter'ı kırar; clip güvenli */
+  overflow-x: clip;
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* ---- Utility Classes ---- */
+.container {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: var(--container-padding);
+}
+
+.section-title {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 16px;
+  letter-spacing: -0.02em;
+}
+
+.section-title span {
+  background: var(--gradient-red);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.section-subtitle {
+  text-align: center;
+  color: var(--color-gray-text);
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin: 0 auto 60px;
+  font-weight: 400;
+}
+
+/* ---- Premium Smoked Acrylic / White Glass Card ---- */
+.glass-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(0, 0, 0, 0.2) 100%);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-left: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  box-shadow:
+    0 24px 48px rgba(0, 0, 0, 0.2),
+    /* softer shadow */
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  /* very subtle inset */
+  transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+[data-theme="light"] .glass-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.8));
+  border: 1px solid rgba(15, 23, 42, 0.05);
+  /* very light slate border */
+  border-top: 1px solid rgba(255, 255, 255, 1);
+  box-shadow:
+    0 10px 30px rgba(15, 23, 42, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
+}
+
+.glass-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.03), transparent);
+  transition: left 0.7s ease;
+  pointer-events: none;
+}
+
+[data-theme="light"] .glass-card::before {
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+}
+
+.glass-card:hover::before {
+  left: 100%;
+}
+
+.glass-card:hover {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, rgba(0, 0, 0, 0.15) 100%);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  transform: translateY(-4px);
+  box-shadow:
+    0 32px 64px rgba(0, 0, 0, 0.4),
+    0 0 40px rgba(220, 38, 38, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="light"] .glass-card:hover {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(248, 250, 252, 0.95) 100%);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 1);
+  box-shadow:
+    0 20px 40px rgba(15, 23, 42, 0.08),
+    0 0 30px rgba(220, 38, 38, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
+}
+
+/* ---- Scroll Reveal ---- */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---- Scrollbar ---- */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-black);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-gray);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-red);
+}

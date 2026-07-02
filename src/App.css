@@ -1,0 +1,54 @@
+/* ========================================
+   Global Fixed Background
+   ======================================== */
+
+.global-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: var(--gradient-dark);
+  transition: background 0.5s ease;
+}
+
+.global-bg-gradient {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(ellipse at 30% 50%, rgba(220, 38, 38, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 70% 20%, rgba(220, 38, 38, 0.05) 0%, transparent 50%);
+  /* transform kaldırıldı — fixed elementlerin backdrop-filter'ını kırıyordu */
+  animation: global-glow 8s ease-in-out infinite alternate;
+}
+
+[data-theme="light"] .global-bg-gradient {
+  background: radial-gradient(ellipse at 30% 50%, rgba(220, 38, 38, 0.04) 0%, transparent 60%),
+    radial-gradient(ellipse at 70% 20%, rgba(220, 38, 38, 0.03) 0%, transparent 50%);
+}
+
+@keyframes global-glow {
+  0% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+/* ---- Floating Gradient Orbs ---- */
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  /* 80px blur GPU bellek/perf yiyordu — 50px yine yumuşak */
+  filter: blur(50px);
+  opacity: 0.5;
+  /* Sürekli opacity animasyonu kaldırıldı: statik orb yeterli atmosfer */
+}
+
+.orb-1 {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(220, 38, 38, 0.18) 0%, transparent 70%);
+  top: -5%;
+  left: -5%;
+}
+
+[data-theme="light"] .orb-1 { background: radial-gradient(circle, rgba(220, 38, 38, 0.06) 0%, transparent 70%); }

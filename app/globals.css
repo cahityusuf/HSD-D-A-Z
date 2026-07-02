@@ -1,0 +1,12 @@
+@import '../src/index.css';
+@import '../src/App.css';
+@import '../src/components/Navbar.css';
+@import '../src/components/Hero.css';
+@import '../src/components/WhatIs.css';
+@import '../src/components/WhyAttend.css';
+@import '../src/components/About.css';
+@import '../src/components/Speakers.css';
+@import '../src/components/Partners.css';
+@import '../src/components/Sponsors.css';
+@import '../src/components/Contact.css';
+@import '../src/components/Footer.css';

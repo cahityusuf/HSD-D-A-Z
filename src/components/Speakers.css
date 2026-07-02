@@ -1,0 +1,399 @@
+/* =========================================================
+   Speakers — WebGL Fluid Glass + alternating editorial rows
+   ========================================================= */
+
+.speakers-fluid {
+  position: relative;
+  padding: 120px 0 0;
+  overflow: clip;
+  isolation: isolate;
+}
+
+.speakers-fluid::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 800px 600px at 20% 30%, rgba(220, 38, 38, 0.07), transparent 70%),
+    radial-gradient(ellipse 800px 600px at 80% 70%, rgba(220, 38, 38, 0.05), transparent 70%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+[data-theme="light"] .speakers-fluid::before {
+  background:
+    radial-gradient(ellipse 800px 600px at 20% 30%, rgba(220, 38, 38, 0.04), transparent 70%),
+    radial-gradient(ellipse 800px 600px at 80% 70%, rgba(220, 38, 38, 0.03), transparent 70%);
+}
+
+/* ─── Intro header ─── */
+.speakers__intro {
+  text-align: center;
+  margin: 0 auto 40px;
+  max-width: 880px;
+  position: relative;
+  z-index: 3;
+}
+
+.speakers__eyebrow {
+  display: inline-block;
+  font-family: var(--font-countdown);
+  font-size: 0.74rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--color-red);
+  margin-bottom: 22px;
+  font-weight: 500;
+}
+
+.speakers__title {
+  font-family: var(--font-heading);
+  font-size: clamp(2.4rem, 6vw, 4.6rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin-bottom: 24px;
+  color: var(--color-white);
+  display: inline-flex;
+  align-items: baseline;
+  text-transform: uppercase;
+}
+
+.speakers__title-dot {
+  color: var(--color-red);
+  margin-left: 4px;
+}
+
+.speakers__sub {
+  font-family: var(--font-hero-serif);
+  font-style: italic;
+  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+  color: var(--color-white-muted);
+  line-height: 1.55;
+  font-weight: 400;
+  letter-spacing: 0.005em;
+  max-width: 600px;
+  margin: 0 auto 32px;
+}
+
+.speakers__rule {
+  width: 64px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-red), transparent);
+  margin: 0 auto;
+}
+
+/* =========================================================
+   PINNED WEBGL STAGE — 100vh sticky canvas
+   The trick: margin-bottom: -100vh removes the canvas from
+   block flow so the text rows can stack on top of it.
+   ========================================================= */
+.speakers-fluid__stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100dvh;
+  width: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.speakers-fluid__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.speakers-fluid__canvas canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* =========================================================
+   TEXT ROWS — natural block flow stacked over the canvas
+   ========================================================= */
+.speakers-fluid__rows {
+  position: relative;
+  z-index: 2;
+  margin-top: -100vh;
+  margin-top: -100dvh;
+}
+
+.sp-row {
+  display: flex;
+  align-items: center;
+  height: 100vh;
+  height: 100dvh;
+  padding: 0 clamp(24px, 6vw, 96px);
+  position: relative;
+}
+
+.sp-row--reverse {
+  justify-content: flex-start;
+}
+
+.sp-row:not(.sp-row--reverse) {
+  justify-content: flex-end;
+}
+
+.sp-row__info {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: clamp(320px, 38vw, 520px);
+  /* The text sits on the OPPOSITE side of the photo: photo is on left → text on right, etc */
+}
+
+.sp-row__kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-countdown);
+  font-size: 0.74rem;
+  letter-spacing: 0.42em;
+  color: var(--color-red);
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.sp-row__kicker-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-red);
+  box-shadow: 0 0 12px var(--color-red-glow);
+}
+
+.sp-row__name {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 4.4vw, 4rem);
+  font-weight: 600;
+  letter-spacing: -0.028em;
+  line-height: 1;
+  color: var(--color-white);
+  margin: 4px 0 0;
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.45);
+}
+
+[data-theme="light"] .sp-row__name {
+  color: #0f172a;
+  text-shadow: 0 4px 24px rgba(255, 255, 255, 0.55);
+}
+
+.sp-row__role {
+  font-family: var(--font-hero-serif);
+  font-style: italic;
+  font-size: clamp(1.05rem, 1.4vw, 1.25rem);
+  color: var(--color-white-muted);
+  line-height: 1.4;
+  font-weight: 400;
+  margin-top: 2px;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="light"] .sp-row__role {
+  color: #1e293b;
+  text-shadow: 0 2px 12px rgba(255, 255, 255, 0.6);
+}
+
+.sp-row__role-sep {
+  color: var(--color-red);
+  font-style: normal;
+  margin: 0 4px;
+}
+
+.sp-row__company {
+  font-family: var(--font-family);
+  font-style: normal;
+  font-weight: 500;
+  color: var(--color-white);
+  letter-spacing: 0.005em;
+}
+
+.sp-row__divider {
+  width: 56px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--color-red), transparent);
+  margin: 8px 0 4px;
+}
+
+.sp-row__bio {
+  color: var(--color-gray-text);
+  font-size: 1rem;
+  line-height: 1.72;
+  font-weight: 400;
+  max-width: 520px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+}
+
+[data-theme="light"] .sp-row__bio {
+  color: #334155;
+  text-shadow: 0 2px 8px rgba(255, 255, 255, 0.5);
+}
+
+.sp-row__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.sp-row__tag {
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(15, 15, 18, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: rgba(255, 255, 255, 0.85);
+  font-family: var(--font-countdown);
+  font-size: 0.66rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 500;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: all var(--transition-base);
+}
+
+.sp-row__tag:hover {
+  background: rgba(220, 38, 38, 0.18);
+  border-color: rgba(220, 38, 38, 0.45);
+  color: var(--color-white);
+}
+
+[data-theme="light"] .sp-row__tag {
+  background: rgba(255, 255, 255, 0.7);
+  border-color: rgba(15, 23, 42, 0.12);
+  color: rgba(15, 23, 42, 0.78);
+}
+
+[data-theme="light"] .sp-row__tag:hover {
+  background: rgba(220, 38, 38, 0.1);
+  border-color: rgba(220, 38, 38, 0.4);
+  color: #0f172a;
+}
+
+/* ─── End mark ─── */
+.speakers__endmark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: 80px 24px 100px;
+  color: var(--color-gray-text);
+  position: relative;
+  z-index: 3;
+}
+
+.speakers__endmark-rule {
+  width: 90px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+}
+
+[data-theme="light"] .speakers__endmark-rule {
+  background: linear-gradient(90deg, transparent, rgba(15, 23, 42, 0.35), transparent);
+}
+
+.speakers__endmark-text {
+  font-family: var(--font-hero-serif);
+  font-style: italic;
+  font-size: 0.95rem;
+  letter-spacing: 0.06em;
+  color: var(--color-white-muted);
+}
+
+.sp-row__mobile-image {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .speakers-fluid {
+    padding: 60px 0 0;
+  }
+
+  .speakers-fluid__stage {
+    display: none !important;
+  }
+
+  .speakers-fluid__rows {
+    margin-top: 0 !important;
+  }
+
+  .sp-row {
+    height: auto !important;
+    flex-direction: column !important;
+    padding: 48px 24px !important;
+    gap: 32px;
+    align-items: center !important;
+    justify-content: flex-start !important;
+  }
+
+  .sp-row__mobile-image {
+    display: block;
+    width: 100%;
+    max-width: 340px;
+    aspect-ratio: 4 / 5;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .sp-row__mobile-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .sp-row__info {
+    width: 100%;
+    max-width: 480px;
+    text-align: center;
+    align-items: center;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    backdrop-filter: none !important;
+    box-shadow: none !important;
+    gap: 16px;
+  }
+
+  .sp-row__name {
+    font-size: 2.2rem;
+    margin: 0;
+  }
+
+  .sp-row__role {
+    font-size: 1.1rem;
+    color: var(--color-red);
+  }
+
+  .sp-row__company {
+    color: var(--color-white);
+  }
+
+  .sp-row__divider {
+    margin: 8px auto;
+    width: 80px;
+  }
+
+  .sp-row__bio {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--color-white-muted);
+  }
+
+  .sp-row__tags {
+    justify-content: center;
+    margin-top: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .speakers-fluid__stage {
+    /* Keep static — the canvas still renders but no animations */
+  }
+}

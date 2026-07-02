@@ -1,0 +1,231 @@
+/* ========================================
+   WhatIs Section — "Teknoloji ve Yenilik Zirvesi Nedir?"
+   Awwwards-style pinned scroll experience
+   ======================================== */
+
+.whatis {
+  position: relative;
+  background: rgb(255, 255, 255);
+  overflow: hidden;
+}
+
+[data-theme="light"] .whatis {
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+}
+
+/* Desktop pinned stage */
+.whatis-pin {
+  height: 100vh;
+  height: 100dvh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.whatis-stage {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 96px 24px 80px;
+  box-sizing: border-box;
+  position: relative;
+  gap: 56px;
+}
+
+/* ---- Header (title + subtitle) ---- */
+.whatis-header {
+  text-align: center;
+  will-change: transform, filter, opacity;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.whatis-title {
+  margin-bottom: 16px;
+  font-size: clamp(2.2rem, 5.2vw, 3.6rem);
+}
+
+.whatis-subtitle {
+  margin: 0 auto;
+  max-width: 640px;
+}
+
+/* ---- Paragraph stage (overlapping cards) ---- */
+.whatis-paragraphs {
+  position: relative;
+  width: 100%;
+  max-width: 880px;
+  height: clamp(320px, 42vh, 460px);
+  margin: 0 auto;
+  /* Horizontal blur curtain edges to enhance the "blur perdesi" feel */
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    #000 8%,
+    #000 92%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    #000 8%,
+    #000 92%,
+    transparent 100%
+  );
+}
+
+.whatis-paragraph {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 22px;
+  padding: 0 24px;
+  will-change: transform, filter, opacity;
+  pointer-events: none;
+}
+
+.whatis-paragraph-icon {
+  font-size: 3rem;
+  color: var(--color-red);
+  display: inline-flex;
+  filter: drop-shadow(0 8px 20px rgba(220, 38, 38, 0.25));
+}
+
+.whatis-paragraph-title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.4rem, 2.4vw, 1.9rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--color-white);
+  margin: 0;
+  background: var(--gradient-red);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.whatis-paragraph-text {
+  color: var(--color-white-muted);
+  font-size: clamp(1rem, 1.15vw, 1.125rem);
+  line-height: 1.85;
+  letter-spacing: -0.01em;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+[data-theme="light"] .whatis-paragraph-text {
+  color: var(--color-white-muted);
+}
+
+/* ---- Progress dots ---- */
+.whatis-progress {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+}
+
+.whatis-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-red);
+  transform-origin: center;
+  will-change: transform, opacity;
+  box-shadow: 0 0 16px rgba(220, 38, 38, 0.4);
+}
+
+/* Mobile accordion stays hidden on desktop */
+.whatis-mobile {
+  display: none;
+}
+
+/* ========================================
+   MOBILE — disable pin, use accordion
+   ======================================== */
+@media (max-width: 768px) {
+  .whatis {
+    padding: 0;
+  }
+
+  .whatis-pin {
+    display: flex !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    width: 100%;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .whatis-stage {
+    padding: 20px;
+    gap: 24px;
+    height: 100% !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Dikeyde merkeze al */
+    align-items: center;
+  }
+
+  .whatis-header {
+    margin-bottom: 0;
+  }
+
+  .whatis-paragraphs {
+    width: 100%;
+    height: 50vh; /* Daha geniş alan */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .whatis-paragraph {
+    padding: 0;
+    gap: 12px;
+    justify-content: center;
+    height: 100%;
+  }
+
+  .whatis-paragraph-text {
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  .whatis-mobile {
+    display: none;
+  }
+}
+
+/* Reduced motion: skip the heavy scroll animation */
+@media (prefers-reduced-motion: reduce) {
+  .whatis-header,
+  .whatis-paragraph {
+    transform: none !important;
+    filter: none !important;
+    opacity: 1 !important;
+  }
+
+  .whatis-paragraphs {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+
+  .whatis-paragraph {
+    position: relative;
+    inset: auto;
+  }
+}

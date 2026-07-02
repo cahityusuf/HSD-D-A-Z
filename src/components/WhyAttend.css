@@ -1,0 +1,486 @@
+/* =========================================================
+   Why Attend — Cinematic cube zoom + scroll-driven 3D
+   ========================================================= */
+
+/* ── Section: tall so scroll drives the animation ── */
+.why-attend {
+  position: relative;
+  /* 100vh sticky stage + 5200px of scroll space */
+  min-height: calc(100vh + 7000px);
+  background: transparent;
+  contain: layout style;
+}
+
+/* ── White veil ── */
+.why-veil {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  background: #ffffff;
+  z-index: 20;
+  pointer-events: none;
+  /* GSAP fades this from 1→0 */
+  margin-bottom: -100vh;
+  margin-bottom: -100dvh;
+}
+
+[data-theme="light"] .why-veil {
+  background: #f8fafc;
+}
+
+/* ── Sticky viewport stage ── */
+.why-scene {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  z-index: 10;
+  /* Subtle ambient glow */
+  background: radial-gradient(
+    circle at 50% 55%,
+    rgba(220, 38, 38, 0.07) 0%,
+    transparent 65%
+  );
+}
+
+/* ── Header — absolute, anchored to top-centre ── */
+.why-header {
+  position: absolute;
+  top: 86px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  will-change: transform, opacity;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.why-title {
+  font-size: clamp(1.7rem, 3.6vw, 2.6rem);
+  margin-bottom: 8px;
+}
+
+.why-subtitle {
+  margin: 0 auto;
+  max-width: 500px;
+  font-size: 0.9rem;
+}
+
+/* ── Perspective wrapper ── */
+.why-persp {
+  perspective: 1100px;
+  perspective-origin: 50% 50%;
+}
+
+/* ── Mouse-parallax tilt ── */
+.why-tilt {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* ── The cube ── */
+.why-cube {
+  --s: 300px;        /* side length */
+  --h: 150px;        /* half → translateZ */
+  width:  var(--s);
+  height: var(--s);
+  position: relative;
+  transform-style: preserve-3d;
+  will-change: transform;
+  /* GSAP handles: rotateX / rotateY / scale */
+}
+
+/* ── Generic face ── */
+.why-face {
+  position: absolute;
+  inset: 0;
+  width:  var(--s);
+  height: var(--s);
+  border-radius: 18px;
+  overflow: hidden;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* ── Face positions (recalculated for --h: 150px) ── */
+.why-face-top    { transform: rotateX(90deg)   translateZ(150px); }
+.why-face-bottom { transform: rotateX(-90deg)  translateZ(150px); }
+.why-face-s0     { transform:                  translateZ(150px); }
+.why-face-s1     { transform: rotateY(90deg)   translateZ(150px); }
+.why-face-s2     { transform: rotateY(180deg)  translateZ(150px); }
+.why-face-s3     { transform: rotateY(-90deg)  translateZ(150px); }
+
+/* ── TOP FACE: red + HSD logo ── */
+.why-face-top {
+  background: linear-gradient(
+    135deg,
+    #b91c1c 0%,
+    #dc2626 45%,
+    #ef4444 100%
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 -38px 70px rgba(0,0,0,0.18);
+}
+
+/* Shine highlight on top */
+.why-face-top-shine {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    145deg,
+    rgba(255,255,255,0.35) 0%,
+    transparent 50%
+  );
+  pointer-events: none;
+}
+
+/* Subtle grid on top face */
+.why-face-top-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px);
+  background-size: 30px 30px;
+  mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
+  pointer-events: none;
+}
+
+.why-hsd-logo {
+  width: 55%;
+  max-width: 170px;
+  object-fit: contain;
+  position: relative;
+  z-index: 2;
+  filter: brightness(0) invert(1);
+  user-select: none;
+}
+
+/* ── BOTTOM FACE — matches About section bg for seamless transition ── */
+.why-face-bottom {
+  background: linear-gradient(180deg, #f5f1e6 0%, #ece6d4 100%);
+  box-shadow: inset 0 18px 60px rgba(0,0,0,0.06);
+}
+
+[data-theme="dark"] .why-face-bottom {
+  background: linear-gradient(180deg, #0d0c0a 0%, #15130f 100%);
+  box-shadow: inset 0 18px 60px rgba(0,0,0,0.6);
+}
+
+/* ── OUTRO OVERLAY — full-screen cover matching About bg ── */
+.why-outro {
+  position: absolute;
+  inset: 0;
+  background: #f5f1e6;
+  opacity: 0;
+  z-index: 30;
+  pointer-events: none;
+}
+
+[data-theme="dark"] .why-outro {
+  background: #0d0c0a;
+}
+
+/* ── SIDE CONTENT FACES ── */
+.why-face-s0,
+.why-face-s1,
+.why-face-s2,
+.why-face-s3 {
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(
+    155deg,
+    rgba(30,30,40,0.92) 0%,
+    rgba(10,10,15,0.97) 100%
+  );
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-top: 1px solid rgba(255,255,255,0.16);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.1),
+    inset 0 -28px 60px rgba(0,0,0,0.18);
+}
+
+[data-theme="light"] .why-face-s0,
+[data-theme="light"] .why-face-s1,
+[data-theme="light"] .why-face-s2,
+[data-theme="light"] .why-face-s3 {
+  background: linear-gradient(155deg, rgba(255,255,255,0.96) 0%, rgba(248,250,252,0.9) 100%);
+  border: 1px solid rgba(15,23,42,0.07);
+  border-top: 1px solid #fff;
+  box-shadow:
+    inset 0 1px 0 #fff,
+    inset 0 -24px 52px rgba(15,23,42,0.035);
+}
+
+/* ── Inner glow (accent colour) ── */
+.wf-glow {
+  position: absolute;
+  inset: -2px;
+  border-radius: 18px;
+  background: radial-gradient(
+    circle at 28% 18%,
+    var(--accent) 0%,
+    transparent 55%
+  );
+  opacity: 0.28;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+[data-theme="light"] .wf-glow {
+  opacity: 0.25;
+  mix-blend-mode: normal;
+}
+
+/* ── Grid overlay ── */
+.wf-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 30px 30px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+  pointer-events: none;
+}
+
+[data-theme="light"] .wf-grid {
+  background-image:
+    linear-gradient(rgba(15,23,42,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15,23,42,0.04) 1px, transparent 1px);
+}
+
+/* ── Badge (top-left of face) ── */
+.wf-badge {
+  position: absolute;
+  top: 20px;
+  left: 22px;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  z-index: 3;
+}
+
+.wf-badge-num {
+  font-family: var(--font-countdown);
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  color: var(--accent, var(--color-red));
+  font-weight: 500;
+}
+
+.wf-badge-label {
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--color-gray-text);
+  font-weight: 600;
+  padding: 3px 9px;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 999px;
+  background: rgba(0,0,0,0.28);
+}
+
+[data-theme="light"] .wf-badge-label {
+  border: 1px solid rgba(15,23,42,0.08);
+  background: rgba(255,255,255,0.65);
+}
+
+/* ── Body content ── */
+.wf-body {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 60px 28px 28px;
+  text-align: center;
+  z-index: 2;
+}
+
+.wf-icon {
+  font-size: 3rem;
+  color: var(--accent, var(--color-red));
+  display: inline-flex;
+  line-height: 1;
+}
+
+.wf-title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.05rem, 1.8vw, 1.3rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--color-white);
+  margin: 0;
+}
+
+[data-theme="light"] .wf-title {
+  color: #0f172a;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.wf-desc {
+  color: var(--color-white-muted);
+  font-size: 0.85rem;
+  line-height: 1.6;
+  margin: 0;
+  max-width: 30ch;
+}
+
+[data-theme="light"] .wf-desc {
+  color: var(--color-gray-text);
+}
+
+/* ── Corner decorations ── */
+.wf-c {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-color: var(--accent, var(--color-red));
+  border-style: solid;
+  border-width: 0;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.wf-c-tl { top: 14px; left: 14px;  border-top-width: 2px; border-left-width: 2px;  border-top-left-radius: 7px; }
+.wf-c-tr { top: 14px; right: 14px; border-top-width: 2px; border-right-width: 2px; border-top-right-radius: 7px; }
+.wf-c-bl { bottom: 14px; left: 14px;  border-bottom-width: 2px; border-left-width: 2px;  border-bottom-left-radius: 7px; }
+.wf-c-br { bottom: 14px; right: 14px; border-bottom-width: 2px; border-right-width: 2px; border-bottom-right-radius: 7px; }
+
+/* ── Cube area — fills scene, centers cube ── */
+.why-cube-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform: translateY(42px);
+}
+
+/* ── Floor reflection glow ── */
+.why-cube-wrap::after {
+  content: '';
+  position: absolute;
+  bottom: 8%;
+  left: 50%;
+  width: 300px;
+  height: 50px;
+  transform: translateX(-50%) rotateX(76deg);
+  background: radial-gradient(
+    ellipse at center,
+    rgba(220,38,38,0.38) 0%,
+    rgba(220,38,38,0.08) 45%,
+    transparent 75%
+  );
+  filter: blur(8px);
+  pointer-events: none;
+  z-index: 0;
+  will-change: auto;
+}
+
+[data-theme="light"] .why-cube-wrap::after {
+  opacity: 0.3;
+}
+
+/* ── Progress line at page-bottom edge ── */
+.why-progress-track {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: rgba(127, 127, 127, 0.14);
+  z-index: 20;
+  overflow: hidden;
+}
+
+[data-theme="light"] .why-progress-track {
+  background: rgba(15, 23, 42, 0.08);
+}
+
+.why-progress-fill {
+  height: 100%;
+  background: var(--color-red);
+  transition: width 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+    background 0.4s ease;
+  box-shadow: 0 0 12px rgba(220, 38, 38, 0.6);
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+@media (max-width: 768px) {
+  .why-cube {
+    --s: 260px;
+  }
+
+  .why-face-top    { transform: rotateX(90deg)   translateZ(130px); }
+  .why-face-bottom { transform: rotateX(-90deg)  translateZ(130px); }
+  .why-face-s0     { transform:                  translateZ(130px); }
+  .why-face-s1     { transform: rotateY(90deg)   translateZ(130px); }
+  .why-face-s2     { transform: rotateY(180deg)  translateZ(130px); }
+  .why-face-s3     { transform: rotateY(-90deg)  translateZ(130px); }
+
+  /* Remove expensive effects on mobile GPU */
+  .why-face-s0,
+  .why-face-s1,
+  .why-face-s2,
+  .why-face-s3 {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: linear-gradient(155deg, rgba(20,20,28,0.97) 0%, rgba(8,8,12,0.99) 100%);
+  }
+
+  .wf-glow { display: none; }
+  .why-cube-wrap::after { width: 260px; filter: blur(4px); }
+  .wf-icon { font-size: 2.2rem; }
+  .why-scene { padding: 44px 16px 0; }
+}
+
+@media (max-width: 480px) {
+  .why-cube {
+    --s: 220px;
+  }
+
+  .why-face-top    { transform: rotateX(90deg)   translateZ(110px); }
+  .why-face-bottom { transform: rotateX(-90deg)  translateZ(110px); }
+  .why-face-s0     { transform:                  translateZ(110px); }
+  .why-face-s1     { transform: rotateY(90deg)   translateZ(110px); }
+  .why-face-s2     { transform: rotateY(180deg)  translateZ(110px); }
+  .why-face-s3     { transform: rotateY(-90deg)  translateZ(110px); }
+
+  .why-cube-wrap::after { width: 220px; }
+  .wf-icon  { font-size: 1.9rem; }
+  .wf-desc  { font-size: 0.78rem; }
+  .why-scene { padding: 36px 12px 0; }
+}
+
+/* ── Reduced motion: skip animation, show first card ── */
+@media (prefers-reduced-motion: reduce) {
+  .why-attend { min-height: auto; }
+  .why-scene  { position: relative; min-height: 100vh; }
+  .why-veil   { display: none; }
+  .why-cube, .why-tilt { transform: none !important; }
+  .why-header { opacity: 1 !important; transform: none !important; }
+  .why-face   { backface-visibility: visible; -webkit-backface-visibility: visible; }
+  .why-face:not(.why-face-s0):not(.why-face-top) { display: none; }
+  .why-face-s0, .why-face-top { transform: none !important; position: relative; }
+}
