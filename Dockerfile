@@ -3,14 +3,14 @@ ENV COREPACK_INTEGRITY_KEYS=0
 WORKDIR /app
 RUN corepack enable
 COPY package.json pnpm-lock.yaml ./
-RUN pnpm install --frozen-lockfile --prod
+RUN pnpm install --frozen-lockfile --prod --dangerously-allow-all-builds
 
 FROM node:22-alpine AS builder
 ENV COREPACK_INTEGRITY_KEYS=0
 WORKDIR /app
 RUN corepack enable
 COPY package.json pnpm-lock.yaml ./
-RUN pnpm install --frozen-lockfile
+RUN pnpm install --frozen-lockfile --dangerously-allow-all-builds
 COPY . .
 RUN pnpm run build
 
